@@ -1,0 +1,20 @@
+{
+  "id": "./",
+  "name": "Code Master Hub",
+  "short_name": "Code Master",
+  "description": "A hub for tactical play, school planning, and creative builds.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
+  "icons": [
+    {
+      "src": "app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

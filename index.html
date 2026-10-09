@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1220" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Code Master" />
+    <title>Code Master Hub</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="app-icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="app-icon.svg" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">App Arcade</p>
+          <h1>Code Master Hub</h1>
+        </div>
+        <nav class="nav-tabs" aria-label="Main navigation">
+          <button class="nav-btn active" data-target="home">Home</button>
+          <button class="nav-btn" data-target="game">Retro Bowl</button>
+          <button class="nav-btn" data-target="battlefield">Battlefield</button>
+          <button class="nav-btn" data-target="school">School Helper</button>
+          <button class="nav-btn" data-target="lego">Lego Builder</button>
+        </nav>
+        <button type="button" id="installAppBtn" class="nav-btn install-app-btn">Install app</button>
+        <details class="theme-customizer">
+          <summary class="nav-btn">Theme</summary>
+          <div class="theme-drawer">
+            <div class="theme-drawer-heading"><strong>Appearance</strong><button type="button" id="resetThemeBtn">Reset</button></div>
+            <label class="theme-select-label" for="themePresetInput">Preset</label>
+            <select id="themePresetInput">
+              <option value="operations">Operations</option>
+              <option value="arctic">Arctic signal</option>
+              <option value="canopy">Canopy</option>
+              <option value="ember">Emberline</option>
+              <option value="custom">Custom</option>
+            </select>
+            <div class="theme-color-grid">
+              <label><span>Background</span><input id="themeBackground" type="color" value="#0b1220" /></label>
+              <label><span>Surfaces</span><input id="themeSurface" type="color" value="#101a2a" /></label>
+              <label><span>Primary accent</span><input id="themeAccent" type="color" value="#22c55e" /></label>
+              <label><span>Highlight</span><input id="themeHighlight" type="color" value="#38bdf8" /></label>
+              <label><span>Text</span><input id="themeText" type="color" value="#ecf4ff" /></label>
+              <label><span>Muted text</span><input id="themeMuted" type="color" value="#b3c1d9" /></label>
+            </div>
+            <label class="theme-select-label" for="themeFontInput">Typeface</label>
+            <select id="themeFontInput">
+              <option value="system">System</option>
+              <option value="technical">Technical</option>
+              <option value="editorial">Editorial</option>
+            </select>
+          </div>
+        </details>
+      </header>
+
+      <dialog id="installHelpDialog" class="install-dialog" aria-labelledby="installDialogTitle">
+        <div class="install-dialog-inner">
+          <p class="eyebrow">APP INSTALL</p>
+          <h2 id="installDialogTitle">Install Code Master Hub</h2>
+          <p id="installHelpText"></p>
+          <ol id="installSteps"></ol>
+          <button type="button" id="closeInstallHelpBtn" class="primary-btn">Done</button>
+        </div>
+      </dialog>
+
+      <main class="content">
+        <section id="home" class="panel active">
+          <div class="hero-card">
+            <div>
+              <p class="eyebrow">Multi-function app</p>
+              <h2>One hub for play, planning, and creativity.</h2>
+              <p>
+                Deploy into a tactical extraction raid, manage a retro football team, organize schoolwork,
+                or turn a build idea into a LEGO instruction booklet.
+              </p>
+              <button id="launchBattlefieldBtn" class="hero-deploy-btn">Deploy to Battlefield <span aria-hidden="true">&gt;</span></button>
+            </div>
+            <div class="hero-tiles">
+              <div class="mini-tile football">
+                <span>Game</span>
+                <strong>Retro Bowl</strong>
+              </div>
+              <div class="mini-tile tactical">
+                <span>Extraction</span>
+                <strong>Last Light</strong>
+              </div>
+              <div class="mini-tile school">
+                <span>School</span>
+                <strong>Planner</strong>
+              </div>
+              <div class="mini-tile lego">
+                <span>Build</span>
+                <strong>Brick Lab</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="quick-grid">
+            <div class="quick-card score-card">
+              <p>Team score</p>
+              <h3 id="homeSummaryScore">0 - 0</h3>
+            </div>
+            <div class="quick-card">
+              <p>Assignments due</p>
+              <h3 id="schoolSummaryCount">0</h3>
+            </div>
+            <div class="quick-card">
+              <p>LEGO pieces</p>
+              <h3 id="legoSummaryPieces">0</h3>
+            </div>
+          </div>
+        </section>
+
+        <section id="game" class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Arcade mode</p>
+              <h2>Retro Bowl</h2>
+            </div>
+            <div class="team-controls">
+              <label for="teamNameInput">Your team</label>
+              <input id="teamNameInput" type="text" maxlength="18" value="Blue Hawks" placeholder="Blue Hawks" />
+            </div>
+            <div class="team-strip">
+              <span id="teamNameDisplay">Blue Hawks</span>
+              <strong id="scoreHome">0</strong>
+              <span>:</span>
+              <strong id="scoreAway">0</strong>
+              <span>Rivals</span>
+            </div>
+            <button id="resetGameBtn" class="primary-btn small-btn">New game</button>
+          </div>
+
+          <div class="gameboard">
+            <div class="quarter-scoreboard" role="table" aria-label="Four-quarter game score">
+              <div class="quarter-score-row quarter-score-head" role="row">
+                <span role="columnheader">TEAM</span>
+                <span role="columnheader" data-quarter-cell="1">Q1</span>
+                <span role="columnheader" data-quarter-cell="2">Q2</span>
+                <span role="columnheader" data-quarter-cell="3">Q3</span>
+                <span role="columnheader" data-quarter-cell="4">Q4</span>
+                <strong role="columnheader">FINAL</strong>
+              </div>
+              <div class="quarter-score-row" role="row">
+                <span id="homeQuarterName" role="rowheader">Blue Hawks</span>
+                <span id="homeQuarter1" data-quarter-cell="1" role="cell">0</span>
+                <span id="homeQuarter2" data-quarter-cell="2" role="cell">0</span>
+                <span id="homeQuarter3" data-quarter-cell="3" role="cell">0</span>
+                <span id="homeQuarter4" data-quarter-cell="4" role="cell">0</span>
+                <strong id="homeFinalScore" role="cell">0</strong>
+              </div>
+              <div class="quarter-score-row" role="row">
+                <span role="rowheader">Rivals</span>
+                <span id="awayQuarter1" data-quarter-cell="1" role="cell">0</span>
+                <span id="awayQuarter2" data-quarter-cell="2" role="cell">0</span>
+                <span id="awayQuarter3" data-quarter-cell="3" role="cell">0</span>
+                <span id="awayQuarter4" data-quarter-cell="4" role="cell">0</span>
+                <strong id="awayFinalScore" role="cell">0</strong>
+              </div>
+            </div>
+            <div class="score-layer">
+              <div class="status-card">
+                <span>Clock</span>
+                <strong id="clockValue">03:00</strong>
+              </div>
+              <div class="status-card">
+                <span>Possession</span>
+                <strong id="possessionValue">Blue Hawks</strong>
+              </div>
+              <div class="status-card">
+                <span>Momentum</span>
+                <strong id="momentumValue">Balanced</strong>
+              </div>
+            </div>
+
+            <div class="field-wrapper">
+              <canvas id="footballThreeCanvas" aria-hidden="true"></canvas>
+              <div class="football-view-hud" aria-live="polite">
+                <strong id="footballDownDistance">1ST &amp; 10</strong>
+                <span id="footballPlayPhase">PRE-SNAP</span>
+                <span id="footballFieldPosition">MIDFIELD</span>
+              </div>
+              <div class="field-yard-lines"></div>
+              <div class="field-markers">
+                <span>0</span>
+                <span>25</span>
+                <span>50</span>
+                <span>75</span>
+                <span>100</span>
+              </div>
+              <div class="ball" id="ballMarker"></div>
+              <div class="goal-post left"></div>
+              <div class="goal-post right"></div>
+            </div>
+
+            <div class="game-meta">
+              <div class="meta-box">
+                <span>Down</span>
+                <strong id="downValue">1st & 10</strong>
+              </div>
+              <div class="meta-box">
+                <span>Drive</span>
+                <strong id="driveValue">Midfield</strong>
+              </div>
+              <div class="meta-box">
+                <span>Quarter</span>
+                <strong id="quarterValue">Q1</strong>
+              </div>
+            </div>
+
+            <div class="play-grid">
+              <div class="play-controls">
+                <button class="play-btn run" data-play="run">Power Run</button>
+                <button class="play-btn pass" data-play="pass">Quick Pass</button>
+                <button class="play-btn deep" data-play="deep">Deep Shot</button>
+                <button class="play-btn kick" data-play="fieldGoal">Field Goal</button>
+              </div>
+
+              <div class="team-stats">
+                <div>
+                  <span>Rush Yards</span>
+                  <strong id="rushYards">0</strong>
+                </div>
+                <div>
+                  <span>Pass Yards</span>
+                  <strong id="passYards">0</strong>
+                </div>
+                <div>
+                  <span>Energy</span>
+                  <strong id="energyValue">82%</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="log-box">
+              <h3>Game Feed</h3>
+              <ul id="gameLog"></ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="battlefield" class="panel battlefield-panel">
+          <div class="battlefield-header">
+            <div>
+              <p class="eyebrow">Frontline operations / Sector 07</p>
+              <h2>Battlefield: <span>Last Light</span></h2>
+            </div>
+            <div class="soldier-rank">
+              <span>OPERATOR LEVEL</span>
+              <strong id="operatorLevel">01</strong>
+              <div class="rank-progress"><span id="rankProgress"></span></div>
+              <small id="operatorXp">0 XP</small>
+            </div>
+          </div>
+
+          <div class="battlefield-layout">
+            <div class="combat-column">
+              <div class="combat-hud">
+                <div><span>MISSION</span><strong id="missionNumber">01</strong></div>
+                <div><span>HOSTILES</span><strong id="hostileCount">03</strong></div>
+                <div><span>SECTOR</span><strong>ASHFALL</strong></div>
+                <div><span>STATUS</span><strong id="combatStatus">ACTIVE</strong></div>
+              </div>
+              <div class="objective-strip">
+                <div><span>CONTRACT OBJECTIVE</span><strong id="objectiveStatus">Clear hostiles, recover intel, extract.</strong></div>
+                <div><span>RAID SALVAGE</span><strong id="raidCreditsValue">0 CR</strong></div>
+                <div><span>BANKED CREDITS</span><strong id="creditsValue">0 CR</strong></div>
+              </div>
+
+              <div class="battlefield-scene" aria-label="Operator combat field">
+                <canvas id="battlefieldThreeCanvas" aria-hidden="true"></canvas>
+                <canvas id="battlefieldCanvas" width="960" height="480" tabindex="0" title="Move with WASD or arrow keys. Aim and fire with the mouse." aria-label="Top-down battlefield view. Operator at deployment point."></canvas>
+                <div class="scene-scanlines"></div>
+                <div id="sceneReticle" class="scene-reticle" aria-hidden="true"><i></i><i></i></div>
+                <div class="scene-label"><span>LIVE FEED</span><strong id="sceneMessage">Secure the objective. Watch your ammo.</strong></div>
+                <div class="scene-coordinates">34° 08' N / 118° 19' W</div>
+              </div>
+
+              <div class="operator-touch-controls" aria-label="Operator movement and combat controls">
+                <div class="operator-dpad" role="group" aria-label="Move operator">
+                  <button type="button" data-move="ArrowUp" aria-label="Move up">↑</button>
+                  <button type="button" data-move="ArrowLeft" aria-label="Move left">←</button>
+                  <button type="button" data-move="ArrowDown" aria-label="Move down">↓</button>
+                  <button type="button" data-move="ArrowRight" aria-label="Move right">→</button>
+                </div>
+                <button type="button" id="operatorFireBtn" class="operator-fire-btn">Fire</button>
+              </div>
+
+              <div class="combat-readouts">
+                <div class="vital-readout">
+                  <div><span>VITALS</span><strong id="healthValue">100%</strong></div>
+                  <div class="vital-track"><span id="healthBar"></span></div>
+                </div>
+                <div class="ammo-readout"><span>MAGAZINE</span><strong><span id="ammoValue">24</span><i>/</i><span id="reserveAmmo">96</span></strong></div>
+                <div class="combat-readout"><span>ELIMINATIONS</span><strong id="eliminationCount">0</strong></div>
+              </div>
+
+              <div class="combat-actions">
+                <button class="combat-btn engage-btn" id="engageBtn"><span>01</span> Fire / engage</button>
+                <button class="combat-btn" id="coverBtn"><span>02</span> Take cover</button>
+                <button class="combat-btn" id="reloadBtn"><span>03</span> Reload</button>
+                <button class="combat-btn" id="recoverIntelBtn"><span>04</span> Recover intel</button>
+                <button class="combat-btn extract-btn" id="extractBtn"><span>05</span> Extract</button>
+              </div>
+              <p class="combat-feedback" id="combatFeedback" aria-live="polite">Choose your next move, operator.</p>
+            </div>
+
+            <aside class="arsenal-column">
+              <div class="arsenal-heading"><div><span>FIELD KIT</span><h3>Armory</h3></div><span class="signal-dot">ONLINE</span></div>
+              <label class="loadout-label" for="weaponSelect">Active weapon</label>
+              <select id="weaponSelect" class="weapon-select"></select>
+              <div class="weapon-specs">
+                <div><span>CLASS</span><strong id="weaponClass">ASSAULT</strong></div>
+                <div><span>ACCURACY</span><strong id="weaponAccuracy">72%</strong></div>
+                <div><span>MAG SIZE</span><strong id="weaponMagazine">24</strong></div>
+              </div>
+              <div class="unlock-heading"><span>WEAPON UNLOCKS</span><span id="unlockCount">01 / 04</span></div>
+              <ul class="weapon-list" id="weaponList"></ul>
+              <div class="combat-log-wrap"><span>COMBAT LOG</span><ul id="combatLog" class="combat-log"><li>Connection established. Awaiting deployment.</li></ul></div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="school" class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Study dashboard</p>
+              <h2>School Helper</h2>
+            </div>
+            <div class="gpa-pill">
+              <span>GPA</span>
+              <strong id="gpaValue">3.8</strong>
+            </div>
+          </div>
+
+          <div class="school-layout">
+            <div class="planner-box">
+              <h3>Add assignment</h3>
+              <div class="input-grid">
+                <input id="assignmentName" type="text" placeholder="Assignment name" />
+                <input id="assignmentSubject" type="text" placeholder="Subject" />
+                <input id="assignmentDue" type="date" />
+                <select id="assignmentPriority">
+                  <option value="High">High priority</option>
+                  <option value="Medium">Medium priority</option>
+                  <option value="Low">Low priority</option>
+                </select>
+              </div>
+              <button id="addAssignmentBtn" class="primary-btn">Add to planner</button>
+            </div>
+
+            <div class="metrics-box">
+              <div class="metric-card">
+                <span>Tasks</span>
+                <strong id="taskCount">0</strong>
+              </div>
+              <div class="metric-card">
+                <span>Next up</span>
+                <strong id="nextTaskName">None</strong>
+              </div>
+              <div class="metric-card">
+                <span>Study time</span>
+                <strong id="studyHours">0h</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="academic-grid">
+            <div class="task-list-wrapper">
+              <h3>Assignments</h3>
+              <ul id="assignmentList" class="task-list"></ul>
+            </div>
+
+            <div class="grade-panel">
+              <h3>Grade pulse</h3>
+              <div class="grade-meter">
+                <div class="grade-labels">
+                  <span>Math</span>
+                  <span id="mathGrade">95%</span>
+                </div>
+                <div class="meter"><span style="width:95%"></span></div>
+              </div>
+              <div class="grade-meter">
+                <div class="grade-labels">
+                  <span>Science</span>
+                  <span id="scienceGrade">88%</span>
+                </div>
+                <div class="meter"><span style="width:88%"></span></div>
+              </div>
+              <div class="grade-meter">
+                <div class="grade-labels">
+                  <span>History</span>
+                  <span id="historyGrade">91%</span>
+                </div>
+                <div class="meter"><span style="width:91%"></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="agenda-panel">
+            <div class="agenda-header">
+              <h3>Interactive Agenda</h3>
+              <button id="addAgendaBtn" class="primary-btn small-btn">+ Add event</button>
+            </div>
+
+            <div class="agenda-day-tabs" id="agendaDays"></div>
+
+            <div class="agenda-form hidden" id="agendaForm">
+              <input id="agendaTitle" type="text" placeholder="Event title" />
+              <input id="agendaTime" type="time" />
+              <select id="agendaType">
+                <option value="Study">Study</option>
+                <option value="Assignment">Assignment</option>
+                <option value="Club">Club</option>
+                <option value="Break">Break</option>
+                <option value="Exam">Exam</option>
+              </select>
+              <button id="saveAgendaBtn" class="primary-btn">Save</button>
+            </div>
+
+            <ul id="agendaList" class="agenda-list"></ul>
+          </div>
+        </section>
+
+        <section id="lego" class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Creative lab</p>
+              <h2>LEGO Set Builder</h2>
+            </div>
+            <div class="set-pill">
+              <span>Build</span>
+              <strong id="setTotalCost">Instructions</strong>
+            </div>
+          </div>
+
+          <div class="lego-layout">
+            <div class="builder-box">
+              <label>
+                Build idea
+                <input id="buildIdeaInput" type="text" maxlength="40" placeholder="e.g. dragon tower, rover base, racing car" />
+              </label>
+
+              <label>
+                Theme
+                <select id="themeSelect">
+                  <option value="City">City</option>
+                  <option value="Space">Space</option>
+                  <option value="Castle">Castle</option>
+                  <option value="Ninja">Ninja</option>
+                </select>
+              </label>
+
+              <label>
+                Piece count
+                <input id="pieceRange" type="range" min="20" max="300" value="120" />
+              </label>
+              <div class="range-readout">
+                <span>Pieces</span>
+                <strong id="pieceValue">120</strong>
+              </div>
+
+              <div class="color-picker" id="colorPicker">
+                <button class="color-swatch active" data-color="Yellow" style="background:#f4d35e;"></button>
+                <button class="color-swatch" data-color="Red" style="background:#ef476f;"></button>
+                <button class="color-swatch" data-color="Blue" style="background:#118ab2;"></button>
+                <button class="color-swatch" data-color="Green" style="background:#2a9d8f;"></button>
+                <button class="color-swatch" data-color="Black" style="background:#1d3557;"></button>
+              </div>
+
+              <div class="check-row">
+                <label><input type="checkbox" id="miniFigure" /> Minifigure</label>
+                <label><input type="checkbox" id="basePlate" /> Baseplate</label>
+                <label><input type="checkbox" id="specialTile" /> Special tile</label>
+              </div>
+
+              <button id="addSetBtn" class="primary-btn">Add to build list</button>
+            </div>
+
+            <div class="set-summary-box">
+              <div class="preview-panel">
+                <h3>Current design</h3>
+                <div class="design-preview" id="designPreview"></div>
+              </div>
+              <div class="design-summary" id="designSummary"></div>
+              <ul id="builderList" class="lego-list"></ul>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
